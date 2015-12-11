@@ -21,12 +21,15 @@ class TempestLogs(object):
     the overall application.
     '''
     def __init__(self,path=""):
+        "constructers parameter: logpath"
         self.log_file = os.path.join(path,"tempest.log")
         logging.basicConfig(filename=self.log_file,level=logging.DEBUG)
     def WriteMsg(self,msg):
+        "writes logs parameters: log message returns 0"
         logging.debug(msg)
         return 0
     def ReadLog(self):
+        "reads logs in the logpath: returns log messages string."
         f = open(self.log_file,'r')
         body = ""
         try:
