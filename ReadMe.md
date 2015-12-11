@@ -10,7 +10,8 @@ into a set of png files.
 
 WarTempest.py --briefcase-folder <path to folder with wave files> --width <screenheight> --height <screenwidth>
  --refresh-rate <refresh rate in hertz> --saturation <decimal value of saturation per pixel>
- 
+ --contrast-red <integer value for red pixel: 0-255> --contrast-green <integer value for green pixel: 0-255>
+ --contrast-blue <integer value for blue pixel: 0-255>
 ##Requirements
  
  Python 3.4

@@ -10,7 +10,7 @@ import os
 
 
 class VanEck(threading.Thread):
-    '''
+    """
     This VanEck object gets a image frame from a wave file and returns a folder
     of files that based on frames per second and length of wave file.
      constructor: opens wave file and reads the data into an array.
@@ -19,23 +19,26 @@ class VanEck(threading.Thread):
     _deltaPoint(): returns a change in position from a step in file
     _buildFrame(): generates a png file from the wave file.
     run(): loop through the wav file and build each file with buildFrame().
-    '''
-    def __init__(self,path="",title="screen",framerate=0,HEIGHT=800,WIDTH=600,saturation=0.65):
+    """
+    def __init__(self,**kwargs):
         threading.Thread.__init__(self)
         self._audio = []
-        self._path = path
-        self._title = title
-        self._loggs = Files.TempestLogs(path)
-        self._rate = framerate
+        self._path = kwargs["path"]
+        self._title = kwargs["title"]
+        self._loggs = Files.TempestLogs(self._path)
+        self._rate = kwargs["framerate"]
         #basic height and width
-        self._h = HEIGHT
-        self._w = WIDTH
+        self._h = kwargs["height"]
+        self._w = kwargs["width"]
         self._fProc = Files.Process()
-        self._saturation = saturation
+        self._saturation = kwargs["saturation"]
+        self._r = kwargs["contrastred"]
+        self._g = kwargs["contrastgreen"]
+        self._b = kwargs["contrastblue"]
         #timing values.
-        self._href_timing = (self._DeltaTime() / (WIDTH * framerate))
-        self._vref_timing = (self._DeltaTime() / framerate)
-        self._pixel_timing = (self._DeltaTime() / (HEIGHT * WIDTH * framerate))
+        self._href_timing = (self._DeltaTime() / (self._w * self._rate))
+        self._vref_timing = (self._DeltaTime() / self._rate)
+        self._pixel_timing = (self._DeltaTime() / (self._h * self._w * self._rate))
 
     #measure overall change in time based on system clock.
     def _DeltaTime(self):
@@ -77,8 +80,7 @@ class VanEck(threading.Thread):
                     #convert
                     #add to array of line
                     if time.clock() % self._pixel_timing != 0:
-                        col = PixelShift.ColorShift((255,255,255),x)
-                        hue = PixelShift.HueShift(col.Shift(),self._saturation,x)
+                        hue = PixelShift.HueShift(self._r,self._g,self._b,self._saturation,x)
                         line.append(hue.ColorOut())
                     #time with horizontal refresh
                     #append to array of screens
