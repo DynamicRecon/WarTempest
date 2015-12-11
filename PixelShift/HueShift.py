@@ -24,8 +24,8 @@ class HueShift(object):
         h = ((h + shiftvalue) / 360.0) % 1.0
         s = s ** saturation
         r, g, b = colorsys.hsv_to_rgb(h, s, v)
-        self._colorOut = ((int(r * 255.9999), int(g * 255.9999), int(b * 255.9999)))
+        self.__colorOut = ((int(r * 255.9999), int(g * 255.9999), int(b * 255.9999)))
 
     def colorout(self):
         "returns pixel from conversion"
-        return self._colorOut
+        return self.__colorOut

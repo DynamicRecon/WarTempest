@@ -21,8 +21,8 @@ class TempestLogs(object):
     """
     def __init__(self,path=""):
         "constructers parameter: logpath"
-        self.log_file = os.path.join(path,"tempest.log")
-        logging.basicConfig(filename=self.log_file,level=logging.DEBUG)
+        self.__log_file = os.path.join(path,"tempest.log")
+        logging.basicConfig(filename=self.__log_file,level=logging.DEBUG)
     def writemsg(self,msg):
         "writes logs parameters: log message returns 0"
         logging.debug(msg)

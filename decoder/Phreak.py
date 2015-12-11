@@ -21,41 +21,41 @@ class VanEck(threading.Thread):
     def __init__(self,**kwargs):
         "constructor sets values for thread"
         threading.Thread.__init__(self)
-        self._audio = []
-        self._path = kwargs["path"]
-        self._title = kwargs["title"]
-        self._loggs = Files.TempestLogs(self._path)
-        self._rate = kwargs["framerate"]
-        self._h = kwargs["height"]
-        self._w = kwargs["width"]
-        self._fProc = Files.Process()
-        self._saturation = kwargs["saturation"]
-        self._r = kwargs["contrastred"]
-        self._g = kwargs["contrastgreen"]
-        self._b = kwargs["contrastblue"]
-        self._href_timing = (self._deltatime() / (self._w * self._rate))
-        self._vref_timing = (self._deltatime() / self._rate)
-        self._pixel_timing = (self._deltatime() / (self._h * self._w * self._rate))
+        self.__audio = []
+        self.__path = kwargs["path"]
+        self.__title = kwargs["title"]
+        self.__loggs = Files.TempestLogs(self.__path)
+        self.__rate = kwargs["framerate"]
+        self.__h = kwargs["height"]
+        self.__w = kwargs["width"]
+        self.__fProc = Files.Process()
+        self.__saturation = kwargs["saturation"]
+        self.__r = kwargs["contrastred"]
+        self.__g = kwargs["contrastgreen"]
+        self.__b = kwargs["contrastblue"]
+        self.__href_timing = (self._deltatime() / (self.__w * self.__rate))
+        self.__vref_timing = (self._deltatime() / self.__rate)
+        self.__pixel_timing = (self._deltatime() / (self.__h * self.__w * self.__rate))
 
     def _deltatime(self):
         "gets time difference based on refresh rate."
-        seconds = 1/self._rate
+        seconds = 1/self.__rate
         timeOne = time.clock()
         time.sleep(seconds/1000)
         timeTwo = time.clock()
         return abs(timeTwo - timeOne)
 
-    def _saveimage(self,screen=[],index=0):
+    def __saveimage(self,screen=None,index=0):
         "saves image with Pillow"
         print("Saving Screenshot: " + str(index))
         pixel_out = []
         for i in range(len(screen)):
             for j in range(len(screen[i])):
                 pixel_out.append(screen[i][j])
-        im = Image.new('RGB',(self._w,self._h),None)
+        im = Image.new('RGB',(self.__w,self.__h),None)
         im.putdata(pixel_out)
-        im.save(os.path.join(self._path,self._title + str(index) +".bmp"))
-        print("Saved: %s" % os.path.join(self._path,self._title + str(index) +".bmp"))
+        im.save(os.path.join(self.__path,self.__title + str(index) +".bmp"))
+        print("Saved: %s" % os.path.join(self.__path,self.__title + str(index) +".bmp"))
 
     def run(self):
         "thread override run method. writes screenshots from audio."
@@ -63,19 +63,19 @@ class VanEck(threading.Thread):
         photo = 0
         screens = []
         line = []
-        for wav in self._fProc.GetAllWaves(self._path):
+        for wav in self.__fProc.getallwaves(self.__path):
             print("Parsing Audio file: %s" % wav)
-            self._loggs.writemsg("Parsing Audio file %s" % wav)
+            self.__loggs.writemsg("Parsing Audio file %s" % wav)
             f = wave.open(wav, 'r')
             for i in range(f.getnframes()):
                 for x in f.readframes(i):
-                    if time.clock() % self._pixel_timing != 0:
-                        hue = PixelShift.HueShift(self._r,self._g,self._b,self._saturation,x)
+                    if time.clock() % self.__pixel_timing != 0:
+                        hue = PixelShift.HueShift(self.__r,self.__g,self.__b,self.__saturation,x)
                         line.append(hue.colorout())
-                    if time.clock() % self._href_timing != 0 and len(line) >= self._w:
+                    if time.clock() % self.__href_timing != 0 and len(line) >= self.__w:
                         screens.append(line)
                         line = []
-                    if time.clock() % self._vref_timing != 0 and len(screens) >= self._h:
+                    if time.clock() % self.__vref_timing != 0 and len(screens) >= self.__h:
                         self._saveimage(screens,photo)
                         photo += 1
                         self._loggs.writemsg("Screen %d saved..." % (photo))
