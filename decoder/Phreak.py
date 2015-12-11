@@ -33,11 +33,11 @@ class VanEck(threading.Thread):
         self._r = kwargs["contrastred"]
         self._g = kwargs["contrastgreen"]
         self._b = kwargs["contrastblue"]
-        self._href_timing = (self._DeltaTime() / (self._w * self._rate))
-        self._vref_timing = (self._DeltaTime() / self._rate)
-        self._pixel_timing = (self._DeltaTime() / (self._h * self._w * self._rate))
+        self._href_timing = (self._deltatime() / (self._w * self._rate))
+        self._vref_timing = (self._deltatime() / self._rate)
+        self._pixel_timing = (self._deltatime() / (self._h * self._w * self._rate))
 
-    def _DeltaTime(self):
+    def _deltatime(self):
         "gets time difference based on refresh rate."
         seconds = 1/self._rate
         timeOne = time.clock()
@@ -45,7 +45,7 @@ class VanEck(threading.Thread):
         timeTwo = time.clock()
         return abs(timeTwo - timeOne)
 
-    def _SaveImage(self,screen=[],index=0):
+    def _saveimage(self,screen=[],index=0):
         "saves image with Pillow"
         print("Saving Screenshot: " + str(index))
         pixel_out = []
@@ -65,20 +65,20 @@ class VanEck(threading.Thread):
         line = []
         for wav in self._fProc.GetAllWaves(self._path):
             print("Parsing Audio file: %s" % wav)
-            self._loggs.WriteMsg("Parsing Audio file %s" % wav)
+            self._loggs.writemsg("Parsing Audio file %s" % wav)
             f = wave.open(wav, 'r')
             for i in range(f.getnframes()):
                 for x in f.readframes(i):
                     if time.clock() % self._pixel_timing != 0:
                         hue = PixelShift.HueShift(self._r,self._g,self._b,self._saturation,x)
-                        line.append(hue.ColorOut())
+                        line.append(hue.colorout())
                     if time.clock() % self._href_timing != 0 and len(line) >= self._w:
                         screens.append(line)
                         line = []
                     if time.clock() % self._vref_timing != 0 and len(screens) >= self._h:
-                        self._SaveImage(screens,photo)
+                        self._saveimage(screens,photo)
                         photo += 1
-                        self._loggs.WriteMsg("Screen %d saved..." % (photo))
+                        self._loggs.writemsg("Screen %d saved..." % (photo))
                         screens = []
                     pos += 1
             f.close()
