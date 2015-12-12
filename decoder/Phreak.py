@@ -12,12 +12,23 @@ import math
 
 class VanEck(threading.Thread):
     """
+    *class info*
     This VanEck object gets a image frame from a wave file and returns a folder
     of files that based on frames per second and length of wave file.
      constructor: opens wave file and reads the data into an array.
     _DeltaTime(): returns change in time based on refresh rate.
     _SaveImage(): creates screen shot from run method.
     run(): loop through the wav file and builds screen shot.
+
+    *HOW IT WORKS*
+        Vertical, horizontal, pixel refresh timing values are calculated. Then when the pixel refresh is true it is created
+        by taking a sin(sample of the audio / the sample width) to convert it to radians the pixel is placed on the
+        then the HueShift object converts the radians to degrees and shifts the pixel in the color space. It is then added
+        to the line list. Then when horizontal refresh is true it is added to the
+        screen list then the line list is returned to zero. Then when the height is
+        reached and the vertical refresh is true it is added to the screen list.
+        Then the image is drawn and saved then the screen list if returned to
+        zero. The it starts over until all wave files have been read.
     """
     def __init__(self,**kwargs):
         "constructor sets values for thread"

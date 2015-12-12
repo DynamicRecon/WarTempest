@@ -1,4 +1,4 @@
-#WarTempest v0.1.2 Alpha 
+#WarTempest 
 
 ##Description
 

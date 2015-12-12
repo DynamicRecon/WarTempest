@@ -3,7 +3,7 @@ import optparse
 import decoder
 
 __author__ = 'Scott <crazyhousethinker@gmail.com>'
-__version__ = "0.1.2alpha"
+__version__ = "0.1.3alpha"
 
 __doc__ = """
 
