@@ -29,7 +29,7 @@ class VanEck(threading.Thread):
         self.__h = kwargs["height"]
         self.__w = kwargs["width"]
         self.__fProc = Files.Process()
-        self.__saturation = kwargs["saturation"]
+        self.__saturation = int(kwargs["saturation"])/100
         self.__r = kwargs["contrastred"]
         self.__g = kwargs["contrastgreen"]
         self.__b = kwargs["contrastblue"]
@@ -72,7 +72,8 @@ class VanEck(threading.Thread):
             for i in range(f.getnframes()):
                 for x in f.readframes(i):
                     if time.clock() % self.__pixel_timing != 0:
-                        hue = PixelShift.HueShift(self.__r,self.__g,self.__b,self.__saturation,x)
+                        rad = x/255.
+                        hue = PixelShift.HueShift(self.__r,self.__g,self.__b,self.__saturation,rad)
                         line.append(hue.colorout())
                     if time.clock() % self.__href_timing != 0 and len(line) >= self.__w:
                         screens.append(line)

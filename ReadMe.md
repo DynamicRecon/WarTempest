@@ -1,4 +1,4 @@
-#WarTempest v0.0.1 Alpha 
+#WarTempest v0.1.2 Alpha 
 
 ##Description
 
@@ -6,7 +6,7 @@ WarTempest is a python based command line program that takes the information fro
 a Software Defined Radio setup like SDR# or GNU Radio. Then it tries to create screen shots from the wave file data
 into a set of png files. 
 
-PLEASE NOTE THIS PROJECT IS IN ACTIVE DEVELOPMENT...
+PLEASE NOTE THIS PROJECT IS EXPERIMENTAL. RESULTS MAY VARY.
 
 ##Usage
 
