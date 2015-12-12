@@ -46,7 +46,7 @@ class VanEck(threading.Thread):
         return abs(timeTwo - timeOne)
 
     def __saveimage(self,screen=None,index=0):
-        "saves image with Pillow"
+        "saves image with Pillow in screenshots folder"
         print("Saving Screenshot: " + str(index))
         pixel_out = []
         for i in range(len(screen)):
@@ -54,8 +54,10 @@ class VanEck(threading.Thread):
                 pixel_out.append(screen[i][j])
         im = Image.new('RGB',(self.__w,self.__h),None)
         im.putdata(pixel_out)
-        im.save(os.path.join(self.__path,self.__title + str(index) +".bmp"))
-        print("Saved: %s" % os.path.join(self.__path,self.__title + str(index) +".bmp"))
+        if(os.path.exists(os.path.join(self.__path,"screenshots")) == False):
+            os.mkdir(os.path.join(self.__path,"screenshots"))
+        im.save(os.path.join(self.__path,"screenshots",self.__title + str(index) +".bmp"))
+        print("Saved: %s" % os.path.join(self.__path,"screenshots",self.__title + str(index) +".bmp"))
 
     def run(self):
         "thread override run method. writes screenshots from audio."
@@ -76,9 +78,9 @@ class VanEck(threading.Thread):
                         screens.append(line)
                         line = []
                     if time.clock() % self.__vref_timing != 0 and len(screens) >= self.__h:
-                        self._saveimage(screens,photo)
+                        self.__saveimage(screens,photo)
                         photo += 1
-                        self._loggs.writemsg("Screen %d saved..." % (photo))
+                        self.__loggs.writemsg("Screen %d saved..." % (photo))
                         screens = []
                     pos += 1
             f.close()

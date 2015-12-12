@@ -15,8 +15,8 @@ Usage %prog [options] arguments
         --hertz: refresh rate default: 60
         --saturation: image saturation between 0 to 1 default: 0.65
         --contrast-red: hue red value 0-255 default: 100
-        --constrast-blue: hue blue value 0-255 default: 100
-        --contrast-green: hue green value 0-255 default: 100
+        --constrast-blue: hue blue value 0-255 default: 0
+        --contrast-green: hue green value 0-255 default: 0
 
 """
 
@@ -39,10 +39,10 @@ if __name__ == "__main__":
                         help="color saturation value default: 0.65")
       parser.add_option("--contrast-red", dest="contrast_red",action="store",default=100,type="int",
                         help="sets red pixel contrast default: 100")
-      parser.add_option("--contrast-green", dest="contrast_green",action="store",default=100,type="int",
-                        help="sets green pixel contrast default: 100")
-      parser.add_option("--contrast-blue", dest="contrast_blue",action="store",default=100,type="int",
-                        help="sets blue pixel contrast default: 100")
+      parser.add_option("--contrast-green", dest="contrast_green",action="store",default=0,type="int",
+                        help="sets green pixel contrast default: 0")
+      parser.add_option("--contrast-blue", dest="contrast_blue",action="store",default=0,type="int",
+                        help="sets blue pixel contrast default: 0")
 
       options, args = parser.parse_args()
       #thread creation and start
