@@ -1,5 +1,6 @@
 import colorsys
 import math
+
 class HueShift(object):
     """
         *Summary*
